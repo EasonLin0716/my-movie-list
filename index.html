@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Movie List</title>
+  <!-- Bootstrap and fontawesome -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css"
+    integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+  <script src="https://kit.fontawesome.com/e6303f1548.js"></script>
+</head>
+
+<body>
+  <!-- navigation -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="/index.html">Movie List</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+          <a class="nav-link" href="index.html">Home
+            <span class="sr-only">(current)</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="favorite.html">favorite</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="container mt-5">
+    <!--search bar-->
+    <div class="d-flex justify-content-between align-items-center" id="search-bar">
+      <div class="mx-2 row">
+        <form id="search" class="form-inline">
+          <label class="sr-only" for="inlineFormInputName2">Name</label>
+          <input type="text" class="form-control mb-2 mr-sm-2" id="search-input" placeholder="search name ...">
+          <button type="submit" class="btn btn-primary mb-2" id="search-btn">Search</button>
+        </form>
+      </div>
+      <!-- mode buttons bar -->
+      <!-- 新增: mode buttons bar，跟search bar在同一個container並運用flex-box + justify content讓兩者靠左跟靠右對齊 -->
+      <div class="mx-4 row" id="mode-bar">
+        <div class="card-button px-2">
+          <i class="fas fa-th"></i>
+        </div>
+        <div class="list-button px-2">
+          <i class="fas fa-bars"></i>
+        </div>
+      </div>
+    </div>
+
+    <!-- data-panel -->
+    <div class="container">
+      <div class="row" id="data-panel">
+        <!-- print movie list here -->
+      </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="show-movie-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle"
+      aria-hidden="true">
+      <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="show-movie-title">Modal title</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body" id="show-movie-body">
+            <div class="row">
+              <div class="col-sm-8" id="show-movie-image">
+              </div>
+              <div class="col-sm-4">
+                <p><em id="show-movie-date"></em></p>
+                <p id="show-movie-description"></p>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Page navigation -->
+    <nav aria-label="Page navigation">
+      <ul class="pagination justify-content-center" id="pagination">
+        <li class="page-item">
+          <a class="page-link" href="#">1</a>
+        </li>
+      </ul>
+    </nav>
+
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+      crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"
+      integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ"
+      crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"
+      integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm"
+      crossorigin="anonymous"></script>
+    <script src="index.js"></script>
+</body>
+
+<!-- A23s -->
+<!-- 
+  當使用者點擊「清單模式」時，資料會被放在表格裡；而點擊「卡片模式」時，會切成原本的 Bootstrap 卡片樣式。
+
+(上圖使用的 fontawesome 傳送門：list 按鈕； card 按鈕)
+
+請在 index.html 上做出類似上圖的功能，建議你按照以下提示分階段進行：
+
+第一階段：點擊 list 按鈕時會出現列表模式
+檢查標準：點擊 list 按鈕時會出現「全部電影」的列表模式 (先不管分頁)，在列表模式下 More 和 AddFavorite 的功能仍可照常使用，也先不管怎麼成功切換回卡片模式。
+
+有待解決的問題：
+
+如何設計事件監聽器與委派流程？
+如何改寫 displayDataList 函式？
+要使用參數還是變數來做切換的 flag？
+第二階段：可以切換 list 模式和 card 模式
+檢查標準：點擊 list 和 card 按鈕時，能顯示對應的樣板。
+
+有待解決的問題：
+
+事件委派要怎麼設計？
+如何在適當的流程裡加入 flow control 來切換顯示樣板？
+【挑戰】第三階段：切換顯示模式時，維持現有分頁
+提示：目前的分頁設計是直接抓取 event.target.dataset.page，然而當函式互動多時，你可能需要把 event.target.dataset.page 抽取成可以共用的變數。
+ -->
+
+</html>
